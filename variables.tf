@@ -3,6 +3,27 @@ variable "location" {
   default = "West Europe"
 }
 
+variable "client_id" {
+  description = "The Client ID of the Azure Service Principal"
+  type        = string
+}
+
+variable "client_secret" {
+  description = "The Client Secret of the Azure Service Principal"
+  type        = string
+  sensitive   = true
+}
+
+variable "subscription_id" {
+  description = "The Azure Subscription ID"
+  type        = string
+}
+
+variable "tenant_id" {
+  description = "The Azure Tenant ID"
+  type        = string
+}
+
 variable "vm_map" {
   type = map(object({
     name           = string
