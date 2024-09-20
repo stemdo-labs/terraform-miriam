@@ -5,5 +5,5 @@ output "lb_public_ip" {
 
 output "vm_ids" {
   description = "IDs of the virtual machines"
-  value       = azurerm_linux_virtual_machine.vm[*].id
+  value       = [for vm in azurerm_linux_virtual_machine.vm : vm.id]
 }
