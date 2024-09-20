@@ -8,24 +8,23 @@ provider "azurerm" {
   tenant_id       = var.tenant_id
 }
 
-# Resource group
-resource "azurerm_resource_group" "rg" {
-  name     = "rg-mblanco-dvfinlab"
-  location = var.location
+# Data source to reference an existing resource group
+data "azurerm_resource_group" "existing_rg" {
+  name = "rg-mblanco-dvfinlab"
 }
 
 # Virtual network
 resource "azurerm_virtual_network" "vnet" {
   name                = "main-vnet"
   address_space       = ["10.0.0.0/16"]
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
+  location            = data.azurerm_resource_group.existing_rg.location
+  resource_group_name = data.azurerm_resource_group.existing_rg.name
 }
 
 # Subnet
 resource "azurerm_subnet" "main_subnet" {
   name                 = "main-subnet"
-  resource_group_name  = azurerm_resource_group.rg.name
+  resource_group_name  = data.azurerm_resource_group.existing_rg.name
   virtual_network_name = azurerm_virtual_network.vnet.name
   address_prefixes     = ["10.0.1.0/24"]
 }
@@ -33,8 +32,8 @@ resource "azurerm_subnet" "main_subnet" {
 # Public IP for the load balancer
 resource "azurerm_public_ip" "main_lb_public_ip" {
   name                = "main-lb-public-ip"
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
+  location            = data.azurerm_resource_group.existing_rg.location
+  resource_group_name = data.azurerm_resource_group.existing_rg.name
   allocation_method   = "Static"
   sku                 = "Standard"
 }
@@ -42,8 +41,8 @@ resource "azurerm_public_ip" "main_lb_public_ip" {
 # Load balancer
 resource "azurerm_lb" "main_lb" {
   name                = "main-lb"
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
+  location            = data.azurerm_resource_group.existing_rg.location
+  resource_group_name = data.azurerm_resource_group.existing_rg.name
   sku                 = "Standard"
   frontend_ip_configuration {
     name                 = "PublicIPAddress"
@@ -70,7 +69,7 @@ resource "azurerm_lb_backend_address_pool" "main_backend_pool" {
 resource "azurerm_lb_nat_rule" "ssh_nat_rule" {
   for_each                       = var.vm_map
   name                           = "ssh-nat-rule-${each.key}"
-  resource_group_name            = azurerm_resource_group.rg.name
+  resource_group_name            = data.azurerm_resource_group.existing_rg.name
   loadbalancer_id                = azurerm_lb.main_lb.id
   frontend_ip_configuration_name = "PublicIPAddress"
   protocol                       = "Tcp"
@@ -81,8 +80,8 @@ resource "azurerm_lb_nat_rule" "ssh_nat_rule" {
 # Network security group
 resource "azurerm_network_security_group" "nsg" {
   name                = "main-nsg"
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
+  location            = data.azurerm_resource_group.existing_rg.location
+  resource_group_name = data.azurerm_resource_group.existing_rg.name
 
   security_rule {
     name                       = "AllowSSH"
@@ -102,8 +101,8 @@ resource "azurerm_network_interface" "nic" {
   for_each = var.vm_map
 
   name                = "nic-${each.key}"
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
+  location            = data.azurerm_resource_group.existing_rg.location
+  resource_group_name = data.azurerm_resource_group.existing_rg.name
 
   ip_configuration {
     name                          = "internal"
@@ -116,8 +115,8 @@ resource "azurerm_network_interface" "nic" {
 resource "azurerm_linux_virtual_machine" "vm" {
   for_each              = var.vm_map
   name                  = "vm-${each.key}"
-  resource_group_name   = azurerm_resource_group.rg.name
-  location              = azurerm_resource_group.rg.location
+  resource_group_name   = data.azurerm_resource_group.existing_rg.name
+  location              = data.azurerm_resource_group.existing_rg.location
   size                  = each.value.size
   network_interface_ids = [azurerm_network_interface.nic[each.key].id]
 
