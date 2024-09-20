@@ -132,8 +132,9 @@ resource "azurerm_linux_virtual_machine" "vm" {
     version   = "latest"
   }
 
-  admin_username = each.value.admin_user
-  admin_password = each.value.admin_password
+  admin_username                    = each.value.admin_user
+  admin_password                    = each.value.admin_password
+  disable_password_authentication   = false
 
   custom_data = base64encode(<<-EOF
     #!/bin/bash
