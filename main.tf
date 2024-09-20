@@ -74,7 +74,7 @@ resource "azurerm_lb_nat_rule" "ssh_nat_rule" {
   loadbalancer_id                = azurerm_lb.main_lb.id
   frontend_ip_configuration_name = "PublicIPAddress"
   protocol                       = "Tcp"
-  frontend_port                  = 22 + (parseint(each.key) * 10)
+  frontend_port                  = each.value.port
   backend_port                   = 22
 }
 
