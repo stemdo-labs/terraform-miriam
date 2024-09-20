@@ -30,6 +30,7 @@ variable "vm_map" {
     size           = string
     admin_user     = string
     admin_password = string
+    port           = number
   }))
   
   default = {
