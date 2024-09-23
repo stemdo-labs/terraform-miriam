@@ -1,3 +1,13 @@
+# Configuring remote backend for Terraform state
+terraform {
+  backend "azurerm" {
+    resource_group_name   = "rg-mblanco-dvfinlab"
+    storage_account_name  = "stamblancodvfinlab"
+    container_name        = "tfstate"
+    key                   = "terraform.tfstate"
+  }
+}
+
 # Provider configuration
 provider "azurerm" {
   features {}
