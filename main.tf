@@ -3,7 +3,7 @@ terraform {
   backend "azurerm" {
     resource_group_name   = "rg-mblanco-dvfinlab"
     storage_account_name  = "stamblancodvfinlab"
-    container_name        = "tfstate"
+    container_name        = "cntfstate"
     key                   = "terraform.tfstate"
   }
 }
