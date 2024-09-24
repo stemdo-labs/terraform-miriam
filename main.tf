@@ -5,13 +5,14 @@ terraform {
     storage_account_name  = "stamblancodvfinlab"
     container_name        = "cntfstate"
     key                   = "terraform.tfstate"
+    use_oidc              = true
   }
 }
 
 # Provider configuration
 provider "azurerm" {
   features {}
-
+  use_oidc             = true
 }
 
 # Data source to reference an existing resource group
