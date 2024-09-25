@@ -6,19 +6,20 @@ El objetivo de este ejercicio ha sido desarrollar un módulo de Terraform que pe
 
 ## Estructura del Proyecto
 
+Para el desarrolo e implementación de este ejercicio he usado tres repositorios distintos:
+
 ### Repositorio de la infraestructura:
 
 - Los archivos de la infraestuctura de Terraform están alojados en este repositorio.
-- Permite la creación de múltiples VMs a través de un mapa de objetos, balanceo de carga y configuración de la red (subredes, interfaces de red, grupos de seguridad) usando el [repositorio del modulo](https://github.com/stemdo-labs/terraform-module-miriam).
+- Permite la creación de múltiples VMs a través de un mapa de objetos, balanceo de carga y configuración de la red (subredes, interfaces de red, grupos de seguridad) usando el [repositorio del módulo](https://github.com/stemdo-labs/terraform-module-miriam).
 - Se ha preparado un `.gitignore` para evitar subir archivos innecesarios o con información sensible.
 
-### Repositorio del módulo
+### Repositorio del módulo:
 
 - El módulo está compuesto por los siguientes componentes clave:
     - Máquinas Virtuales: Se definen a través de un mapa de objetos que permite configurar atributos como tamaño, imagen y etiquetas.
     - Balanceador de Carga: Distribuye el tráfico entrante entre las máquinas virtuales.
     - Red: Configuración de la red virtual, subredes, interfaces de red y grupos de seguridad.
-    - Variables.
 
 ### Repositorio del Workflow:
 
