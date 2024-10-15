@@ -50,20 +50,3 @@ variable "subnet_name" {
   description = "Nombre de la subred"
   default     = "main-subnet"
 }
-
-
-
-# # variables.tf
-# variable "location" {
-#   type = string
-# }
-
-# variable "vm_map" {
-#   type = map(object({
-#     name           = string
-#     size           = string
-#     admin_user     = string
-#     admin_password = string
-#     port           = number
-#   }))
-# }
