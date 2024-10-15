@@ -12,7 +12,7 @@ terraform {
 # Configuración del proveedor
 provider "azurerm" {
   features {}
-  use_oidc = true
+  use_oidc    = true     # habilita la autenticación mediante tokens OIDC (OpenID Connect, autenticación basada en identidades entre servicios)
 }
 
 # Módulo para crear la red virtual y la subred
